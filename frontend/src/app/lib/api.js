@@ -7,7 +7,12 @@ export async function getTasks() {
   if (!res.ok) throw new Error('Erreur lors de la récupération');
   return res.json();
 }
-
+// READ ONE - Récupérer une seule tâche
+export async function getTaskById(id) {
+  const res = await fetch(`${API_URL}/${id}`);
+  if (!res.ok) throw new Error('Tâche non trouvée');
+  return res.json();
+}
 // 2. CREATE - Créer une tâche
 export async function createTask(title) {
   const res = await fetch(API_URL, {

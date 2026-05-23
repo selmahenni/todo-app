@@ -9,7 +9,19 @@ const getAllTasks = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
+// GET ONE - Récupérer UNE tâche par son ID
+const getTaskById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query('SELECT * FROM tasks WHERE id = $1', [id]);
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Tâche non trouvée' });
+    }
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 // 2. CREATE - Ajouter une tâche
 const createTask = async (req, res) => {
   try {
@@ -56,4 +68,4 @@ const deleteTask = async (req, res) => {
   }
 };
 
-module.exports = { getAllTasks, createTask, updateTask, deleteTask };
+module.exports = { getAllTasks, getTaskById, createTask, updateTask, deleteTask };
